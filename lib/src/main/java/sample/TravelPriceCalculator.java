@@ -1,5 +1,6 @@
 package sample;
 
+import org.decimal4j.util.*;
 public class TravelPriceCalculator {
 
     private final TravelTimeCalculator travelTimeCalculator;
@@ -25,10 +26,14 @@ public class TravelPriceCalculator {
     
     public Double getPrice(String travelId) {
 
+        double result;
+
         Integer travelTimeSeconds = travelTimeCalculator.getTravelTime(travelId);
         Integer travelTimeMinutes = travelTimeCalculator.getTravelTimeMinutes(travelTimeSeconds, true);
         Double travelRate = travelRateRepository.getTravelRatePerMinute(travelId);
 
-        return travelTimeMinutes * travelRate;
+        result = DoubleRounder.round(travelTimeMinutes * travelRate, 3);
+
+        return result;
     }
 }

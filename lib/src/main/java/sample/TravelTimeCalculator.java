@@ -14,6 +14,10 @@ public class TravelTimeCalculator {
         int result;
         int plusOne = 0;
 
+        if (timeInSeconds < 60) {
+            return 0;
+        }
+
         if (roundUpToNexMinute) {
             if ( timeInSeconds % 60 > 0) {
                 plusOne = 1;
