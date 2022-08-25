@@ -24,13 +24,13 @@ public class TravelPriceCalculator {
         this.travelDiscountRepository = null;
     }
     
-    public Double getPrice(String travelId) {
+    public Double getPrice() {
 
         double result;
 
-        Integer travelTimeSeconds = travelTimeCalculator.getTravelTime(travelId);
-        Integer travelTimeMinutes = travelTimeCalculator.getTravelTimeMinutes(travelTimeSeconds, true);
-        Double travelRate = travelRateRepository.getTravelRatePerMinute(travelId);
+        Integer travelTimeSeconds = travelTimeCalculator.getTravelTime();
+        Integer travelTimeMinutes = travelTimeCalculator.secondsToMinutes(travelTimeSeconds, true);
+        Double travelRate = travelRateRepository.getTravelRatePerMinute();
 
         result = DoubleRounder.round(travelTimeMinutes * travelRate, 3);
 

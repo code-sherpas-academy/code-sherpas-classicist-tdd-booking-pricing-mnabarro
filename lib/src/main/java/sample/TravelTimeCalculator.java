@@ -4,12 +4,12 @@ import java.util.Random;
 
 public class TravelTimeCalculator {
 
-    public Integer getTravelTime (String travelId) {
+    public Integer getTravelTime () {
 
         return new Random().nextInt(1000);
     }
 
-    public Integer getTravelTimeMinutes(Integer timeInSeconds, boolean roundUpToNexMinute) {
+    public Integer secondsToMinutes(Integer timeInSeconds, boolean roundUpToNexMinute) {
 
         int result;
         int plusOne = 0;

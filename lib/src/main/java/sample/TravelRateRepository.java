@@ -4,7 +4,7 @@ import java.util.Random;
 
 public class TravelRateRepository {
 
-    public Double getTravelRatePerMinute(String travelId) {
+    public Double getTravelRatePerMinute() {
 
         return new Random().nextDouble();
     }
