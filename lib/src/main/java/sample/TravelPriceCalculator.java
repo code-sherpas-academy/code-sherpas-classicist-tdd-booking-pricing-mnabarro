@@ -15,25 +15,22 @@ public class TravelPriceCalculator {
         this.travelRateRepository = travelRateRepository;
         this.travelDiscountRepository = travelDiscountRepository;
     }
-    //If no discount is applied, we don´t need TravelDiscountRepository
-    public TravelPriceCalculator(TravelTimeCalculator travelTimeCalculator,
-                                 TravelRateRepository travelRateRepository) {
 
-        this.travelTimeCalculator = travelTimeCalculator;
-        this.travelRateRepository = travelRateRepository;
-        this.travelDiscountRepository = null;
-    }
-    
     public Double getPrice() {
 
-        double result;
+        double finalTravelPrice;
 
         Integer travelTimeSeconds = travelTimeCalculator.getTravelTime();
         Integer travelTimeMinutes = travelTimeCalculator.secondsToMinutes(travelTimeSeconds, true);
         Double travelRate = travelRateRepository.getTravelRatePerMinute();
+        Double discountFactor = travelDiscountRepository.getTravelDiscount() * 0.01;
 
-        result = DoubleRounder.round(travelTimeMinutes * travelRate, 3);
+        Double fullTravelPrice = travelTimeMinutes * travelRate;
+        Double travelPriceWithDiscount = fullTravelPrice * ( 1 - discountFactor);
 
-        return result;
+        finalTravelPrice = DoubleRounder.round(travelPriceWithDiscount, 3);
+
+
+        return finalTravelPrice;
     }
 }
