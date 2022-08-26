@@ -23,10 +23,13 @@ public class TravelPriceCalculator {
         Integer travelTimeSeconds = travelTimeCalculator.getTravelTime();
         Integer travelTimeMinutes = travelTimeCalculator.secondsToMinutes(travelTimeSeconds);
         Double travelRate = rateRepository.getTravelRatePerMinute();
-        Double discountFactor = discountRepository.getTravelDiscount() * 0.01;
+        Double travelDiscountFactor = discountRepository.getTravelDiscount() * 0.01;
+        Double rateDiscountFactor = discountRepository.getRateDiscount() * 0.01;
 
-        Double fullTravelPrice = travelTimeMinutes * travelRate;
-        Double travelPriceWithDiscount = fullTravelPrice * ( 1 - discountFactor);
+        Double travelRateWithDiscount = travelRate * ( 1 - rateDiscountFactor);
+        Double fullTravelPrice = travelTimeMinutes * travelRateWithDiscount;
+
+        Double travelPriceWithDiscount = fullTravelPrice * ( 1 - travelDiscountFactor);
 
         finalTravelPrice = DoubleRounder.round(travelPriceWithDiscount, 3);
 
