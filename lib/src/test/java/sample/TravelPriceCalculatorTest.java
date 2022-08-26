@@ -32,9 +32,9 @@ class TravelPriceCalculatorTest {
 
         Mockito.when(travelTimeCalculator.getTravelTime()).thenReturn(travelTimeInSeconds);
         Mockito.when(travelTimeCalculator.secondsToMinutes(travelTimeInSeconds)).thenReturn(travelTimeInMinutes);
-        Mockito.when(discountRepository.getTravelDiscount()).thenReturn(0);
-        Mockito.when(discountRepository.getRateDiscount()).thenReturn(0);
-        Mockito.when(rateRepository.getTravelRatePerMinute()).thenReturn(travelRateValue);
+        Mockito.when(discountRepository.travelDiscount()).thenReturn(0);
+        Mockito.when(discountRepository.rateDiscount()).thenReturn(0);
+        Mockito.when(rateRepository.travelRatePerMinute()).thenReturn(travelRateValue);
 
         Double calculatedPrice = travelPriceCalculator.getPrice();
 
@@ -56,9 +56,9 @@ class TravelPriceCalculatorTest {
 
         Mockito.when(travelTimeCalculator.getTravelTime()).thenReturn(travelTimeInSeconds);
         Mockito.when(travelTimeCalculator.secondsToMinutes(travelTimeInSeconds)).thenReturn(travelTimeInMinutes);
-        Mockito.when(discountRepository.getTravelDiscount()).thenReturn(0);
-        Mockito.when(discountRepository.getRateDiscount()).thenReturn(0);
-        Mockito.when(rateRepository.getTravelRatePerMinute()).thenReturn(travelTravelRateValue);
+        Mockito.when(discountRepository.travelDiscount()).thenReturn(0);
+        Mockito.when(discountRepository.rateDiscount()).thenReturn(0);
+        Mockito.when(rateRepository.travelRatePerMinute()).thenReturn(travelTravelRateValue);
 
         Double calculatedPrice = travelPriceCalculator.getPrice();
 
@@ -80,9 +80,9 @@ class TravelPriceCalculatorTest {
 
         Mockito.when(travelTimeCalculator.getTravelTime()).thenReturn(travelTimeInSeconds);
         Mockito.when(travelTimeCalculator.secondsToMinutes(travelTimeInSeconds)).thenReturn(travelTimeInMinutes);
-        Mockito.when(discountRepository.getTravelDiscount()).thenReturn(0);
-        Mockito.when(discountRepository.getRateDiscount()).thenReturn(0);
-        Mockito.when(rateRepository.getTravelRatePerMinute()).thenReturn(travelRateValue);
+        Mockito.when(discountRepository.travelDiscount()).thenReturn(0);
+        Mockito.when(discountRepository.rateDiscount()).thenReturn(0);
+        Mockito.when(rateRepository.travelRatePerMinute()).thenReturn(travelRateValue);
 
         Double calculatedPrice = travelPriceCalculator.getPrice();
 
@@ -105,10 +105,10 @@ class TravelPriceCalculatorTest {
         Double expectedPrice = 0.48;
 
         Mockito.when(travelTimeCalculator.getTravelTime()).thenReturn(travelTimeInSeconds);
-        Mockito.when(discountRepository.getTravelDiscount()).thenReturn(travelDiscountPct);
-        Mockito.when(discountRepository.getRateDiscount()).thenReturn(0);
+        Mockito.when(discountRepository.travelDiscount()).thenReturn(travelDiscountPct);
+        Mockito.when(discountRepository.rateDiscount()).thenReturn(0);
         Mockito.when(travelTimeCalculator.secondsToMinutes(travelTimeInSeconds)).thenReturn(travelTimeInMinutes);
-        Mockito.when(rateRepository.getTravelRatePerMinute()).thenReturn(travelRateValue);
+        Mockito.when(rateRepository.travelRatePerMinute()).thenReturn(travelRateValue);
 
         Double calculatedPrice = travelPriceCalculator.getPrice();
 
@@ -132,12 +132,39 @@ class TravelPriceCalculatorTest {
         Double expectedPrice = 0.54;
 
         Mockito.when(travelTimeCalculator.getTravelTime()).thenReturn(travelTimeInSeconds);
-        Mockito.when(discountRepository.getTravelDiscount()).thenReturn(travelDiscountPct);
-        Mockito.when(discountRepository.getRateDiscount()).thenReturn(rateDiscountPct);
+        Mockito.when(discountRepository.travelDiscount()).thenReturn(travelDiscountPct);
+        Mockito.when(discountRepository.rateDiscount()).thenReturn(rateDiscountPct);
         Mockito.when(travelTimeCalculator.secondsToMinutes(travelTimeInSeconds)).thenReturn(travelTimeInMinutes);
-        Mockito.when(rateRepository.getTravelRatePerMinute()).thenReturn(travelRateValue);
+        Mockito.when(rateRepository.travelRatePerMinute()).thenReturn(travelRateValue);
 
         Double calculatedPrice = travelPriceCalculator.getPrice();
+
+        Assertions.assertThat(calculatedPrice).isEqualTo(expectedPrice);
+    }
+
+    @Test
+    void calculate_price_for_121_seconds_travel_with_pass_and_30_percent_pass_rate_discount () {
+
+        TravelTimeCalculator travelTimeCalculator = mock(TravelTimeCalculator.class);
+        RateRepository rateRepository = mock(RateRepository.class);
+        DiscountRepository discountRepository = mock(DiscountRepository.class);
+
+        TravelPriceCalculator travelPriceCalculator = new TravelPriceCalculator(travelTimeCalculator, rateRepository, discountRepository);
+
+        Integer travelTimeInSeconds = 121;
+        Integer travelTimeInMinutes =  3;
+        Double passRateValue = 0.2;
+        Integer passDiscountPct = 10;
+        Integer passRateDiscountPct = 30;
+        Double expectedPrice = 0.46;
+
+        Mockito.when(travelTimeCalculator.getTravelTime()).thenReturn(travelTimeInSeconds);
+        Mockito.when(discountRepository.passDiscount()).thenReturn(passDiscountPct);
+        Mockito.when(discountRepository.passRateDiscount()).thenReturn(passRateDiscountPct);
+        Mockito.when(travelTimeCalculator.secondsToMinutes(travelTimeInSeconds)).thenReturn(travelTimeInMinutes);
+        Mockito.when(rateRepository.passRatePerMinute()).thenReturn(passRateValue);
+
+        Double calculatedPrice = travelPriceCalculator.getPriceWithPass();
 
         Assertions.assertThat(calculatedPrice).isEqualTo(expectedPrice);
     }
