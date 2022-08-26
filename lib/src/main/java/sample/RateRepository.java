@@ -2,7 +2,7 @@ package sample;
 
 import java.util.Random;
 
-public class TravelRateRepository {
+public class RateRepository {
 
     public Double getTravelRatePerMinute() {
 

@@ -4,16 +4,16 @@ import org.decimal4j.util.*;
 public class TravelPriceCalculator {
 
     private final TravelTimeCalculator travelTimeCalculator;
-    private final TravelRateRepository travelRateRepository;
-    private final TravelDiscountRepository travelDiscountRepository;
+    private final RateRepository rateRepository;
+    private final DiscountRepository discountRepository;
 
     public TravelPriceCalculator(TravelTimeCalculator travelTimeCalculator,
-                                 TravelRateRepository travelRateRepository,
-                                 TravelDiscountRepository travelDiscountRepository) {
+                                 RateRepository rateRepository,
+                                 DiscountRepository discountRepository) {
         
         this.travelTimeCalculator = travelTimeCalculator;
-        this.travelRateRepository = travelRateRepository;
-        this.travelDiscountRepository = travelDiscountRepository;
+        this.rateRepository = rateRepository;
+        this.discountRepository = discountRepository;
     }
 
     public Double getPrice() {
@@ -21,9 +21,9 @@ public class TravelPriceCalculator {
         double finalTravelPrice;
 
         Integer travelTimeSeconds = travelTimeCalculator.getTravelTime();
-        Integer travelTimeMinutes = travelTimeCalculator.secondsToMinutes(travelTimeSeconds, true);
-        Double travelRate = travelRateRepository.getTravelRatePerMinute();
-        Double discountFactor = travelDiscountRepository.getTravelDiscount() * 0.01;
+        Integer travelTimeMinutes = travelTimeCalculator.secondsToMinutes(travelTimeSeconds);
+        Double travelRate = rateRepository.getTravelRatePerMinute();
+        Double discountFactor = discountRepository.getTravelDiscount() * 0.01;
 
         Double fullTravelPrice = travelTimeMinutes * travelRate;
         Double travelPriceWithDiscount = fullTravelPrice * ( 1 - discountFactor);

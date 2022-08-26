@@ -9,7 +9,7 @@ public class TravelTimeCalculator {
         return new Random().nextInt(1000);
     }
 
-    public Integer secondsToMinutes(Integer timeInSeconds, boolean roundUpToNexMinute) {
+    public Integer secondsToMinutes(Integer timeInSeconds) {
 
         int result;
         int plusOne = 0;
@@ -18,11 +18,10 @@ public class TravelTimeCalculator {
             return 0;
         }
 
-        if (roundUpToNexMinute) {
-            if ( timeInSeconds % 60 > 0) {
-                plusOne = 1;
-            }
+        if ( timeInSeconds % 60 > 0) {
+            plusOne = 1;
         }
+
         result = timeInSeconds / 60 + plusOne;
 
         return result;
