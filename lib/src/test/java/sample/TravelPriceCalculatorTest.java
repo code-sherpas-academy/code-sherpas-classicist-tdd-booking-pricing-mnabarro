@@ -1,6 +1,7 @@
 package sample;
 
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -8,6 +9,21 @@ import static org.mockito.Mockito.*;
 
 class TravelPriceCalculatorTest {
 
+    TravelTimeCalculator travelTimeCalculator;
+    RateRepository rateRepository;
+    DiscountRepository discountRepository;
+    TravelPriceCalculator travelPriceCalculator;
+
+    @BeforeEach
+    void tests_setup () {
+
+        travelTimeCalculator = mock(TravelTimeCalculator.class);
+        rateRepository = mock(RateRepository.class);
+        discountRepository = mock(DiscountRepository.class);
+
+        travelPriceCalculator = new TravelPriceCalculator(travelTimeCalculator, rateRepository, discountRepository);
+
+    }
     @Test
     void seconds_to_minutes__times_shorter_than_one_minute_must_return_zero_other_rounds_to_next_full_minute () {
         TravelTimeCalculator travelTimeCalculator = new TravelTimeCalculator();
@@ -18,12 +34,6 @@ class TravelPriceCalculatorTest {
     }
     @Test
     void calculate_price_for_900_second_travel_at_20cents_per_minute_rate () {
-
-        TravelTimeCalculator travelTimeCalculator = mock(TravelTimeCalculator.class);
-        RateRepository rateRepository = mock(RateRepository.class);
-        DiscountRepository discountRepository = mock(DiscountRepository.class);
-
-        TravelPriceCalculator travelPriceCalculator = new TravelPriceCalculator(travelTimeCalculator, rateRepository, discountRepository);
 
         Integer travelTimeInSeconds = 900;
         Integer travelTimeInMinutes =  15;
@@ -43,12 +53,6 @@ class TravelPriceCalculatorTest {
     @Test
     void calculate_price_for_121_seconds_travel_to_be_rounded_to_3_minutes () {
 
-        TravelTimeCalculator travelTimeCalculator = mock(TravelTimeCalculator.class);
-        RateRepository rateRepository = mock(RateRepository.class);
-        DiscountRepository discountRepository = mock(DiscountRepository.class);
-
-        TravelPriceCalculator travelPriceCalculator = new TravelPriceCalculator(travelTimeCalculator, rateRepository, discountRepository);
-
         Integer travelTimeInSeconds = 121;
         Integer travelTimeInMinutes =  3;
         Double travelTravelRateValue = 0.2;
@@ -66,12 +70,6 @@ class TravelPriceCalculatorTest {
     }
     @Test
     void calculate_price_for_travel_times_shorter_than_one_minute_should_be_free () {
-
-        TravelTimeCalculator travelTimeCalculator = mock(TravelTimeCalculator.class);
-        RateRepository rateRepository = mock(RateRepository.class);
-        DiscountRepository discountRepository = mock(DiscountRepository.class);
-
-        TravelPriceCalculator travelPriceCalculator = new TravelPriceCalculator(travelTimeCalculator, rateRepository, discountRepository);
 
         Integer travelTimeInSeconds = 37;
         Integer travelTimeInMinutes =  0;
@@ -91,12 +89,6 @@ class TravelPriceCalculatorTest {
 
     @Test
     void calculate_price_for_121_seconds_travel_with_20_percent_total_discount () {
-
-        TravelTimeCalculator travelTimeCalculator = mock(TravelTimeCalculator.class);
-        RateRepository rateRepository = mock(RateRepository.class);
-        DiscountRepository discountRepository = mock(DiscountRepository.class);
-
-        TravelPriceCalculator travelPriceCalculator = new TravelPriceCalculator(travelTimeCalculator, rateRepository, discountRepository);
 
         Integer travelTimeInSeconds = 121;
         Integer travelTimeInMinutes =  3;
@@ -118,12 +110,6 @@ class TravelPriceCalculatorTest {
     @Test
     void calculate_price_for_121_seconds_travel_with_10_percent_rate_discount () {
 
-        TravelTimeCalculator travelTimeCalculator = mock(TravelTimeCalculator.class);
-        RateRepository rateRepository = mock(RateRepository.class);
-        DiscountRepository discountRepository = mock(DiscountRepository.class);
-
-        TravelPriceCalculator travelPriceCalculator = new TravelPriceCalculator(travelTimeCalculator, rateRepository, discountRepository);
-
         Integer travelTimeInSeconds = 121;
         Integer travelTimeInMinutes =  3;
         Double travelRateValue = 0.2;
@@ -144,12 +130,6 @@ class TravelPriceCalculatorTest {
 
     @Test
     void calculate_price_for_121_seconds_travel_with_pass_and_30_percent_pass_rate_discount () {
-
-        TravelTimeCalculator travelTimeCalculator = mock(TravelTimeCalculator.class);
-        RateRepository rateRepository = mock(RateRepository.class);
-        DiscountRepository discountRepository = mock(DiscountRepository.class);
-
-        TravelPriceCalculator travelPriceCalculator = new TravelPriceCalculator(travelTimeCalculator, rateRepository, discountRepository);
 
         Integer travelTimeInSeconds = 121;
         Integer travelTimeInMinutes =  3;
